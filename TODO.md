@@ -46,7 +46,8 @@ The renderer has **not** been fully migrated yet. `build.gradle` currently exclu
 
 ### P2 — Port remaining client behavior
 
-- [ ] Replace the custom Forge-era `GuiGraphics` configuration screens with the current GUI submission/extraction API; the config values are currently exposed through Sodium's config API and NeoForge's default config screen.
+- [x] **Decided: options stay in Sodium/RSO.** The Forge 1.20.1 two-menu layout (`VideoSettingsHubScreen` presenting separate vanilla and Luxium screens) is abandoned and will not be ported. Luxium-RE keeps no options screen of its own; new options are added to `LuxiumSodiumConfig` instead of a new screen class. NeoForge's default `ConfigurationScreen` stays registered only as a mod-list fallback.
+- [ ] Build out the remaining option pages that are still config-file only, if the ported subsystems justify exposing them (`sky` physical bake and sun/moon size, full `debugHud` layout options, the three cloud layers' remaining ~15 sliders each).
 - [ ] Port F3/debug overlays, clouds, weather/wet surfaces, SSR, entity shadows, custom sky, and keybindings/events to NeoForge 26.2 APIs.
 - [ ] Review the imported experimental `Testing` package; port only experiments that are intended to ship.
 - [ ] Re-enable migrated source packages incrementally and remove their matching temporary source exclusions.

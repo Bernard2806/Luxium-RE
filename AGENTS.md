@@ -6,14 +6,25 @@ Luxium-RE is the NeoForge continuation of Luxium targeting Minecraft 26.2. The m
 
 The target toolchain is Java 25, NeoForge 26.2, and ModDevGradle. Sodium 0.9.2 for NeoForge 26.2 is a required client dependency, and Reese's Sodium Options (`mc26.2-2.2.4+neoforge`) is a second required client dependency that provides the options frontend. Integrate directly with Sodium; do not add Embeddium as a dependency or restore Embeddium runtime hooks.
 
-## Options UI
+## Options are managed through Sodium and RSO
 
-`src/main/java/com/vinlanx/luxium/sodium/LuxiumSodiumConfig.java` is the only place that exposes user-facing options. It registers pages through Sodium's public config API (`@ConfigEntryPointForge` plus `ConfigBuilder`), which is what Reese's Sodium Options renders as a tab. Two rules follow from that:
+**This replaces the original two-menu options layout. Do not port it back.** The Forge 1.20.1 version intercepted the vanilla Video Settings button with its own `VideoSettingsHubScreen` and offered two separate screens: vanilla/Embeddium Video Settings on one side, and the Luxium settings screen on the other. That design is intentionally abandoned.
 
-- Never compile against RSO or Sodium UI classes. RSO is `localRuntime` only; the whole integration surface is Sodium's `net.caffeinemc.mods.sodium.api.config` package.
-- Sodium rejects an option that lists itself as an enable dependency (`IllegalArgumentException: Option cannot depend on itself`). A feature master toggle must therefore use the `alwaysOn` helper, while its dependent sliders and sub-toggles use `under(<option id>)`. Do not pass a feature toggle's own identifier to `under`.
+Reese's Sodium Options is now a **required** client dependency and Luxium-RE has **no options screen of its own**. The single user-facing options surface is Sodium's options screen rendered by RSO, where Luxium-RE appears as its own tab:
 
-`IntegerOptionBuilder` requires a value formatter and enum options require either a `TextProvider` enum or an explicit `setElementNameProvider`; omitting either fails client startup. Every option key needs a matching `luxium_re.sodium.option.*` and `luxium_re.sodium.tooltip.*` entry in `assets/luxium_re/lang/en_us.json`.
+1. `LuxiumSodiumConfig` is a Sodium `ConfigEntryPoint` annotated with `@ConfigEntryPointForge("luxium_re")`.
+2. RSO discovers that entry point through Sodium's config API and renders its pages as a mod tab.
+3. Every option binds to the existing `Config.CLIENT` value, so `luxium_re-client.toml` and the options screen always agree.
+
+Consequences to respect:
+
+- Adding a new user-facing option means adding it in `LuxiumSodiumConfig`, never in a new screen class.
+- `VideoSettingsHubScreen`, `LuxiumConfigScreen`, `ConfigScreenModel`, `ConfigWidgets`, `ConfigOption`, `GlassPanelRenderer`, `ConfigPreviewImages` and `OptionsScreenMixin` are abandoned design. They stay excluded from the build as migration history and must not be resurrected, ported, or re-enabled. The in-game preview images under `assets/luxium/configpic` are only useful for those abandoned screens.
+- `LuxiumREModClient` registers NeoForge's default `ConfigurationScreen` as a fallback for the mod list. That is a safety net, not the intended UX; do not build a custom screen on top of it.
+- Never compile against RSO or Sodium UI classes. RSO is `localRuntime` only; the entire integration surface is Sodium's `net.caffeinemc.mods.sodium.api.config` package.
+- Sodium rejects an option that lists itself as an enable dependency (`IllegalArgumentException: Option cannot depend on itself`). A feature master toggle must use the `alwaysOn` helper; its dependent sliders and sub-toggles use `under(<option id>)`. Never pass a toggle's own identifier to `under`.
+- `IntegerOptionBuilder` requires a value formatter and enum options require either a `TextProvider` enum or an explicit `setElementNameProvider`. Omitting either fails client startup.
+- Every option key needs matching `luxium_re.sodium.option.*` and `luxium_re.sodium.tooltip.*` entries in `assets/luxium_re/lang/en_us.json`.
 
 ## Migration status and boundaries
 

@@ -14,11 +14,25 @@ The [`Luxium-decompiled` repository](https://github.com/Bernard2806/Luxium-decom
 
 Sodium is a required **client-side** dependency. Its unwrapped NeoForge artifact is resolved from the [CaffeineMC Maven repository](https://maven.caffeinemc.net/). The version is pinned in `gradle.properties` as `sodium_version`.
 
+## Options
+
+**All options are managed through Sodium's options screen, rendered by Reese's Sodium Options.** Luxium-RE has no options screen of its own.
+
+This is a deliberate change from the Forge 1.20.1 release, which split settings across two menus: its own `VideoSettingsHubScreen` presented the vanilla/Embeddium Video Settings and a separate Luxium settings screen as two buttons. That layout is not being ported.
+
+Instead:
+
+- [Reese's Sodium Options](https://modrinth.com/mod/reeses-sodium-options) is a **required** client dependency and hosts the options frontend.
+- `LuxiumSodiumConfig` registers the Luxium option pages through [Sodium's public config API](https://github.com/CaffeineMC/sodium/wiki/CaffeineMC-Maven-%26-Config-API). RSO discovers that entry point and shows Luxium-RE as its own tab.
+- The full set of ~150 original options is exposed across pages for upscaling, lighting, sky, atmosphere, reflections and post effects, wet surfaces and rain puddles, vegetation, and performance.
+
+Every option is bound to the same value used by the config file, so `config/luxium_re-client.toml` and the options screen never disagree.
+
 ## Port status
 
 Migration is in progress. The original source and visual assets are being brought forward from Forge 1.20.1; Forge hooks and Embeddium-specific rendering integrations are being replaced with NeoForge 26.2 and Sodium equivalents.
 
-The original renderer, lighting engines, UI, and mixins are retained as migration references. The current NeoForge build only activates the new mod/config bootstrap; legacy rendering source stays excluded until each subsystem is ported to the 26.2 graphics pipeline and Sodium 0.9.x APIs.
+The original renderer, lighting engines, and mixins are retained as migration references. The current NeoForge build only activates the mod bootstrap, the config, and the Sodium config API integration; legacy rendering source stays excluded until each subsystem is ported to the 26.2 graphics pipeline and Sodium 0.9.x APIs. The legacy options screens are excluded on purpose and are not part of the port.
 
 ## Development
 
