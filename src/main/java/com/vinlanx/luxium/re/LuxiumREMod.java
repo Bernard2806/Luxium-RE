@@ -35,28 +35,28 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 @Mod(LuxiumREMod.MODID)
 public class LuxiumREMod {
     // Define mod id in a common place for everything to reference
-    public static final String MODID = "luxiumre";
+    public static final String MODID = "luxium_re";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "luxiumre" namespace
+    // Create a Deferred Register to hold Blocks which will all be registered under the "luxium_re" namespace
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-    // Create a Deferred Register to hold Items which will all be registered under the "luxiumre" namespace
+    // Create a Deferred Register to hold Items which will all be registered under the "luxium_re" namespace
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "luxiumre" namespace
+    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "luxium_re" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new Block with the id "luxiumre:example_block", combining the namespace and path
+    // Creates a new Block with the id "luxium_re:example_block", combining the namespace and path
     public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", p -> p.mapColor(MapColor.STONE));
-    // Creates a new BlockItem with the id "luxiumre:example_block", combining the namespace and path
+    // Creates a new BlockItem with the id "luxium_re:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
 
-    // Creates a new food item with the id "luxiumre:example_id", nutrition 1 and saturation 2
+    // Creates a new food item with the id "luxium_re:example_id", nutrition 1 and saturation 2
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", p -> p.food(new FoodProperties.Builder()
             .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
 
-    // Creates a creative tab with the id "luxiumre:example_tab" for the example item, that is placed after the combat tab
+    // Creates a creative tab with the id "luxium_re:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.luxiumre")) //The language key for the title of your CreativeModeTab
+            .title(Component.translatable("itemGroup.luxium_re")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {

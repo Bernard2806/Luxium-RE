@@ -27,7 +27,13 @@ sourceSets.main.resources {
 }
 
 repositories {
-    // Add here additional repositories if required by some of the dependencies below.
+    maven {
+        name = 'CaffeineMC'
+        url = 'https://maven.caffeinemc.net/releases'
+        content {
+            includeGroup 'net.caffeinemc'
+        }
+    }
 }
 
 base {
@@ -111,6 +117,10 @@ configurations {
 }
 
 dependencies {
+    // Sodium's unwrapped NeoForge artifact is used for client-side integration.
+    compileOnly "net.caffeinemc:sodium-neoforge:${sodium_version}"
+    localRuntime "net.caffeinemc:sodium-neoforge:${sodium_version}"
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
@@ -132,6 +142,11 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+}
+
+// Include the project license in the built mod alongside the root-level license file.
+tasks.named('processResources', ProcessResources).configure {
+    from(rootProject.file('LICENSE.txt'))
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
