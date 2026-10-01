@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8.7",
+  "package": "com.vinlanx.luxium.sodium.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "RenderSectionManagerAccessor",
+    "SodiumWorldRendererAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

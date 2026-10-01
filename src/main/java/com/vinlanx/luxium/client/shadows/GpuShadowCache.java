@@ -63,7 +63,7 @@ import com.vinlanx.luxium.client.NeoShadowsEngine;
 import com.vinlanx.luxium.client.ShaderManager;
 import com.vinlanx.luxium.client.shadows.GpuLocalLightResolver;
 import com.vinlanx.luxium.client.shadows.GpuNeoShadows;
-import com.vinlanx.luxium.client.shadows.sodium.SodiumLocalShadowBridge;
+import com.vinlanx.luxium.sodium.render.SodiumLocalShadowBridge;
 import com.vinlanx.luxium.mixin.CameraAccessor;
 import com.vinlanx.luxium.mixin.MinecraftAccessor;
 import com.vinlanx.luxium.rtx.LightRtMath;
@@ -650,7 +650,7 @@ public final class GpuShadowCache {
             return;
         }
         boolean directSodium = NeoGpuVanilla.isConfiguredEnabled() && this.sodiumLocalShadowBridge.isAvailable();
-        SodiumLocalShadowBridge.PreparedCapture preparedCapture = directCapture = directSodium ? this.sodiumLocalShadowBridge.prepare(entry.worldX, entry.worldY, entry.worldZ, entry.radius) : null;
+        SodiumLocalShadowBridge.PreparedCapture preparedCapture = directCapture = directSodium ? this.sodiumLocalShadowBridge.prepare(entry.worldX, entry.worldY, entry.worldZ, entry.radius, this.shadowTileTarget) : null;
         if (directSodium && (directCapture == null || directCapture.lists().regionCount() == 0)) {
             return;
         }
@@ -670,7 +670,8 @@ public final class GpuShadowCache {
                 shadowPose.m_252781_(Axis.f_252529_.m_252977_(this.shadowCamera.m_90589_()));
                 shadowPose.m_252781_(Axis.f_252436_.m_252977_(this.shadowCamera.m_90590_() + 180.0f));
                 Matrix4f lightViewRotation = new Matrix4f((Matrix4fc)shadowPose.m_85850_().m_252922_());
-                boolean bl = renderedDirect = directSodium && this.sodiumLocalShadowBridge.renderFace(directCapture, proj, lightViewRotation);
+                boolean includeCutout = !NeoGpuVanilla.isConfiguredEnabled() || Config.isFeatureEnabled(Config.CLIENT.neoGpuVanillaCutoutEnabled);
+                boolean bl = renderedDirect = directSodium && this.sodiumLocalShadowBridge.renderFace(directCapture, proj, lightViewRotation, includeCutout);
                 if (directSodium && !renderedDirect) {
                     return;
                 }

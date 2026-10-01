@@ -23,14 +23,17 @@
  *  org.joml.Matrix4f
  *  org.joml.Matrix4fc
  */
-package com.vinlanx.luxium.client.shadows.sodium;
+package com.vinlanx.luxium.sodium.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.buffers.GpuBuffer;
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.FilterMode;
+import com.mojang.blaze3d.textures.GpuSampler;
 import com.vinlanx.luxium.Config;
-import com.vinlanx.luxium.mixin.sky.RenderSectionManagerAccessor;
-import com.vinlanx.luxium.mixin.sky.SodiumWorldRendererAccessor;
-import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanilla;
+import com.vinlanx.luxium.sodium.mixin.RenderSectionManagerAccessor;
+import com.vinlanx.luxium.sodium.mixin.SodiumWorldRendererAccessor;
 import it.unimi.dsi.fastutil.longs.Long2ReferenceMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectLinkedOpenHashMap;
 import java.util.ArrayList;
@@ -38,20 +41,23 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import net.caffeinemc.mods.sodium.client.gl.device.CommandList;
-import net.caffeinemc.mods.sodium.client.gl.device.RenderDevice;
 import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
 import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderMatrices;
 import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderer;
 import net.caffeinemc.mods.sodium.client.render.chunk.RenderSection;
+import net.caffeinemc.mods.sodium.client.render.chunk.RenderSectionFlags;
 import net.caffeinemc.mods.sodium.client.render.chunk.RenderSectionManager;
+import net.caffeinemc.mods.sodium.client.render.chunk.UniformBufferManager;
 import net.caffeinemc.mods.sodium.client.render.chunk.lists.ChunkRenderList;
 import net.caffeinemc.mods.sodium.client.render.chunk.lists.ChunkRenderListIterable;
 import net.caffeinemc.mods.sodium.client.render.chunk.region.RenderRegion;
+import net.caffeinemc.mods.sodium.client.render.chunk.storage.SectionStorage;
 import net.caffeinemc.mods.sodium.client.render.chunk.terrain.DefaultTerrainRenderPasses;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.TerrainRenderPass;
+import net.caffeinemc.mods.sodium.client.util.FogParameters;
 import net.caffeinemc.mods.sodium.client.render.viewport.CameraTransform;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.core.SectionPos;
-import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 
@@ -64,9 +70,9 @@ public final class SodiumLocalShadowBridge {
         return SodiumWorldRenderer.instanceNullable() != null;
     }
 
-    public PreparedCapture prepare(double lightX, double lightY, double lightZ, float radius) {
+    public PreparedCapture prepare(double lightX, double lightY, double lightZ, float radius, RenderTarget target) {
         SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
-        if (worldRenderer == null) {
+        if (worldRenderer == null || target == null) {
             return null;
         }
         RenderSectionManager manager = ((SodiumWorldRendererAccessor)worldRenderer).luxium$getRenderSectionManager();
@@ -74,18 +80,19 @@ public final class SodiumLocalShadowBridge {
             return null;
         }
         RenderSectionManagerAccessor accessor = (RenderSectionManagerAccessor)manager;
-        ChunkRenderer renderer = accessor.luxium$getChunkRenderer();
-        Long2ReferenceMap<RenderSection> sections = accessor.luxium$getSectionByPosition();
-        if (renderer == null || sections == null || sections.isEmpty()) {
+        ChunkRenderer renderer = manager.getChunkRenderer();
+        SectionStorage sections = accessor.luxium$getSectionStorage();
+        UniformBufferManager uniforms = ((SodiumWorldRendererAccessor)worldRenderer).luxium$getUniformBufferManager();
+        if (renderer == null || sections == null || sections.size() == 0 || uniforms == null) {
             return null;
         }
         double reach = Math.max(1.0, (double)radius) + 18.0;
-        int minSectionX = SectionPos.m_123171_((int)Mth.m_14107_((double)(lightX - reach)));
-        int minSectionY = SectionPos.m_123171_((int)Mth.m_14107_((double)(lightY - reach)));
-        int minSectionZ = SectionPos.m_123171_((int)Mth.m_14107_((double)(lightZ - reach)));
-        int maxSectionX = SectionPos.m_123171_((int)Mth.m_14107_((double)(lightX + reach)));
-        int maxSectionY = SectionPos.m_123171_((int)Mth.m_14107_((double)(lightY + reach)));
-        int maxSectionZ = SectionPos.m_123171_((int)Mth.m_14107_((double)(lightZ + reach)));
+        int minSectionX = (int)Math.floor((lightX - reach) / 16.0);
+        int minSectionY = (int)Math.floor((lightY - reach) / 16.0);
+        int minSectionZ = (int)Math.floor((lightZ - reach) / 16.0);
+        int maxSectionX = (int)Math.floor((lightX + reach) / 16.0);
+        int maxSectionY = (int)Math.floor((lightY + reach) / 16.0);
+        int maxSectionZ = (int)Math.floor((lightZ + reach) / 16.0);
         int currentFrame = ++this.frameId;
         Reference2ObjectLinkedOpenHashMap byRegion = new Reference2ObjectLinkedOpenHashMap();
         double maxDistance = reach + 14.0;
@@ -97,58 +104,46 @@ public final class SodiumLocalShadowBridge {
                     double dz;
                     double dy;
                     double dx;
-                    RenderSection section = (RenderSection)sections.get(SectionPos.m_123209_((int)sx, (int)sy, (int)sz));
-                    if (section == null || !section.isBuilt() || section.isDisposed() || (section.getFlags() & 1) == 0 || (dx = (double)section.getCenterX() - lightX) * dx + (dy = (double)section.getCenterY() - lightY) * dy + (dz = (double)section.getCenterZ() - lightZ) * dz > maxDistanceSq || (region = section.getRegion()) == null) continue;
+                    RenderSection section = sections.getConsistent(SectionPos.asLong(sx, sy, sz));
+                    if (section == null || !section.isBuilt() || section.isDisposed() || (section.getRegion().getSectionFlags(section.getSectionIndex()) & RenderSectionFlags.MASK_HAS_BLOCK_GEOMETRY) == 0 || (dx = (double)section.getCenterX() - lightX) * dx + (dy = (double)section.getCenterY() - lightY) * dy + (dz = (double)section.getCenterZ() - lightZ) * dz > maxDistanceSq || (region = section.getRegion()) == null) continue;
                     ChunkRenderList list = (ChunkRenderList)byRegion.get((Object)region);
                     if (list == null) {
                         list = new ChunkRenderList(region);
                         list.reset(currentFrame);
                         byRegion.put((Object)region, (Object)list);
                     }
-                    list.add(section);
+                    list.add(section.getSectionIndex());
                 }
             }
         }
         LocalRenderLists lists = new LocalRenderLists(new ArrayList<ChunkRenderList>((Collection<ChunkRenderList>)byRegion.values()));
-        return new PreparedCapture(renderer, lists, lightX, lightY, lightZ);
+        return new PreparedCapture(renderer, uniforms, lists, target, lightX, lightY, lightZ);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public boolean renderFace(PreparedCapture capture, Matrix4f projection, Matrix4f viewRotation) {
+    public boolean renderFace(PreparedCapture capture, Matrix4f projection, Matrix4f viewRotation, boolean includeCutout) {
         if (capture == null || capture.renderer == null || capture.lists == null) {
             return false;
         }
         if (capture.lists.regionCount() == 0) {
             return false;
         }
-        ChunkRenderMatrices matrices = new ChunkRenderMatrices((Matrix4fc)projection, (Matrix4fc)viewRotation);
+        ChunkRenderMatrices matrices = new ChunkRenderMatrices(projection, viewRotation);
         CameraTransform camera = new CameraTransform(capture.lightX, capture.lightY, capture.lightZ);
-        RenderDevice.enterManagedCode();
-        CommandList commandList = null;
-        try {
-            commandList = RenderDevice.INSTANCE.createCommandList();
-            GlStateManager._colorMask((boolean)false, (boolean)false, (boolean)false, (boolean)false);
-            GlStateManager._enableDepthTest();
-            GlStateManager._depthMask((boolean)true);
-            RenderSystem.depthFunc((int)513);
-            RenderSystem.disableBlend();
-            RenderSystem.disableCull();
-            capture.renderer.render(matrices, commandList, (ChunkRenderListIterable)capture.lists, DefaultTerrainRenderPasses.SOLID, camera);
-            if (!NeoGpuVanilla.isConfiguredEnabled() || Config.isFeatureEnabled(Config.CLIENT.neoGpuVanillaCutoutEnabled)) {
-                capture.renderer.render(matrices, commandList, (ChunkRenderListIterable)capture.lists, DefaultTerrainRenderPasses.CUTOUT, camera);
-            }
-            boolean bl = true;
-            return bl;
+        capture.uniforms.prepareFrame();
+        capture.uniforms.update(matrices, FogParameters.NONE);
+        GpuBufferSlice uniformData = capture.uniforms.getUniformBuffer();
+        GpuBuffer sectionTimeInfo = capture.uniforms.getSectionTimeInfo();
+        GpuSampler terrainSampler = RenderSystem.getSamplerCache().getClampToEdge(FilterMode.LINEAR);
+        TerrainRenderPass solid = new ShadowRenderPass(ChunkSectionLayer.SOLID, true, capture.target);
+        TerrainRenderPass cutout = new ShadowRenderPass(ChunkSectionLayer.CUTOUT, true, capture.target);
+        capture.renderer.render(matrices, capture.lists, solid, camera, FogParameters.NONE, false, terrainSampler, uniformData, sectionTimeInfo);
+        if (includeCutout) {
+            capture.renderer.render(matrices, capture.lists, cutout, camera, FogParameters.NONE, false, terrainSampler, uniformData, sectionTimeInfo);
         }
-        finally {
-            GlStateManager._colorMask((boolean)true, (boolean)true, (boolean)true, (boolean)true);
-            if (commandList != null) {
-                commandList.close();
-            }
-            RenderDevice.exitManagedCode();
-        }
+        return true;
     }
 
     public static final class LocalRenderLists
@@ -183,6 +178,20 @@ public final class SodiumLocalShadowBridge {
         }
     }
 
-    public record PreparedCapture(ChunkRenderer renderer, LocalRenderLists lists, double lightX, double lightY, double lightZ) {
+    private static final class ShadowRenderPass extends TerrainRenderPass {
+        private final RenderTarget target;
+
+        private ShadowRenderPass(ChunkSectionLayer layer, boolean allowFragmentDiscard, RenderTarget target) {
+            super(layer, false, allowFragmentDiscard);
+            this.target = target;
+        }
+
+        @Override
+        public RenderTarget getTarget() {
+            return this.target;
+        }
+    }
+
+    public record PreparedCapture(ChunkRenderer renderer, UniformBufferManager uniforms, LocalRenderLists lists, RenderTarget target, double lightX, double lightY, double lightZ) {
     }
 }

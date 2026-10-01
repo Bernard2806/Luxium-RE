@@ -9,20 +9,15 @@
  *  org.spongepowered.asm.mixin.Mixin
  *  org.spongepowered.asm.mixin.gen.Accessor
  */
-package com.vinlanx.luxium.mixin.sky;
+package com.vinlanx.luxium.sodium.mixin;
 
-import it.unimi.dsi.fastutil.longs.Long2ReferenceMap;
-import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderer;
-import net.caffeinemc.mods.sodium.client.render.chunk.RenderSection;
 import net.caffeinemc.mods.sodium.client.render.chunk.RenderSectionManager;
+import net.caffeinemc.mods.sodium.client.render.chunk.storage.SectionStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(value={RenderSectionManager.class}, remap=false)
 public interface RenderSectionManagerAccessor {
-    @Accessor(value="sectionByPosition")
-    public Long2ReferenceMap<RenderSection> luxium$getSectionByPosition();
-
-    @Accessor(value="chunkRenderer")
-    public ChunkRenderer luxium$getChunkRenderer();
+    @Accessor(value="renderSections", remap=false)
+    SectionStorage luxium$getSectionStorage();
 }
