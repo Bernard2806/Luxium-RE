@@ -29,8 +29,11 @@ displayName="${mod_name}" #mandatory
 # A URL for the "homepage" for this mod, displayed in the mod UI
 displayURL="https://www.curseforge.com/minecraft/mc-mods/luxium" #optional
 
-# A file name (in the root of the mod JAR) containing a logo for display
-#logoFile="luxium.png" #optional
+# Square icon for the NeoForge mod list.
+iconFile="assets/luxium_re/icon.png"
+
+# Wide banner for the NeoForge mod information screen.
+bannerFile="assets/luxium_re/banner.png"
 
 # A text field displayed in the mod UI
 credits="Luxium-RE is a NeoForge continuation of Luxium by Vinlanx. Original project: https://www.curseforge.com/minecraft/mc-mods/luxium."

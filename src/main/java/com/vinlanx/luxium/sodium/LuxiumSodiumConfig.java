@@ -48,7 +48,7 @@ public final class LuxiumSodiumConfig implements ConfigEntryPoint {
         ModOptionsBuilder mod = builder.registerOwnModOptions()
                 .setName("Luxium-RE")
                 .setVersion(LuxiumREMod.VERSION)
-                .setIcon(id("textures/gui/luxium_icon.png"));
+                .setIcon(id("icon.png"));
 
         mod.addPage(upscalingPage(builder));
         mod.addPage(lightingPage(builder));
