@@ -44,6 +44,13 @@ repositories {
             includeGroup 'net.caffeinemc'
         }
     }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+        content {
+            includeGroup 'maven.modrinth'
+        }
+    }
 }
 
 base {
@@ -130,6 +137,10 @@ dependencies {
     // Sodium's unwrapped NeoForge artifact is used for client-side integration.
     compileOnly "net.caffeinemc:sodium-neoforge-mod:${sodium_version}"
     localRuntime "net.caffeinemc:sodium-neoforge:${sodium_version}"
+
+    // Reese's Sodium Options is a required runtime client mod. Luxium-RE does not compile
+    // against it: RSO reads the pages registered through Sodium's public config API.
+    localRuntime "maven.modrinth:reeses-sodium-options:${reeses_sodium_options_version}"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
