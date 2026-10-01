@@ -24,6 +24,8 @@ sourceSets.main.resources {
     // Exclude common development only resources from finalized outputs
     exclude("**/*.bbmodel") // BlockBench project files
     exclude("src/generated/**/.cache") // datagen cache files
+    // The Forge/Embeddium shader pack is retained as a migration reference and is not valid for the 26.2 pipeline yet.
+    exclude("assets/luxium/shaders/**")
 }
 
 sourceSets.main.java {
