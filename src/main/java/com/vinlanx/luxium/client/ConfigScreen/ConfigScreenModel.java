@@ -25,7 +25,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.ForgeConfigSpec;
+import com.vinlanx.luxium.compat.ForgeConfigSpec;
 
 public final class ConfigScreenModel {
     private ConfigScreenModel() {
@@ -455,4 +455,3 @@ public final class ConfigScreenModel {
     public record Folder(String id, Component title, Component description, List<Category> categories) {
     }
 }
-

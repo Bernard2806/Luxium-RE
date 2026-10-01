@@ -17,7 +17,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.ForgeConfigSpec;
+import com.vinlanx.luxium.compat.ForgeConfigSpec;
 
 public final class ConfigOption<T> {
     private final String id;
@@ -171,4 +171,3 @@ public final class ConfigOption<T> {
 
     }
 }
-

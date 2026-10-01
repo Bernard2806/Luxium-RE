@@ -18,6 +18,8 @@ Sodium is a required **client-side** dependency. Its unwrapped NeoForge artifact
 
 Migration is in progress. The original source and visual assets are being brought forward from Forge 1.20.1; Forge hooks and Embeddium-specific rendering integrations are being replaced with NeoForge 26.2 and Sodium equivalents.
 
+The original renderer, lighting engines, UI, and mixins are retained as migration references. The current NeoForge build only activates the new mod/config bootstrap; legacy rendering source stays excluded until each subsystem is ported to the 26.2 graphics pipeline and Sodium 0.9.x APIs.
+
 ## Development
 
 Install a 64-bit JDK 25, then use the Gradle wrapper:

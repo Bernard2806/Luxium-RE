@@ -15,10 +15,9 @@
  */
 package com.vinlanx.luxium;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.IConfigSpec;
-import net.minecraftforge.fml.config.ModConfig;
+import com.vinlanx.luxium.compat.ForgeConfigSpec;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.config.ModConfig;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class Config {
@@ -26,8 +25,8 @@ public class Config {
     public static final Client CLIENT;
     public static final ForgeConfigSpec CLIENT_SPEC;
 
-    public static void register() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, (IConfigSpec)CLIENT_SPEC);
+    public static void register(ModContainer container) {
+        container.registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC.toNeoForgeSpec());
     }
 
     public static boolean isEnabled() {
@@ -708,4 +707,3 @@ public class Config {
 
     }
 }
-
