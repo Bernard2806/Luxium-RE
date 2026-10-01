@@ -1,0 +1,22 @@
+{
+  "luxium_re.sodium.page.general": "Luxium-RE",
+  "luxium_re.sodium.group.rendering": "Rendering Features",
+  "luxium_re.sodium.option.enabled": "Enable Luxium-RE",
+  "luxium_re.sodium.tooltip.enabled": "Master switch for Luxium-RE client rendering features.",
+  "luxium_re.sodium.option.neo_gpu_vanilla": "NeoGpuVanilla Lighting",
+  "luxium_re.sodium.tooltip.neo_gpu_vanilla": "Enable the experimental camera-relative vanilla-light GPU pipeline.",
+  "luxium_re.sodium.option.gpu_lighting": "GPU Local Lighting",
+  "luxium_re.sodium.tooltip.gpu_lighting": "Enable local light rendering and shadowing on supported terrain and entities.",
+  "luxium_re.sodium.option.sky_lighting": "Celestial Lighting",
+  "luxium_re.sodium.tooltip.sky_lighting": "Enable direct lighting from the sun and moon.",
+  "luxium_re.sodium.option.sky_lighting_colors": "Celestial Light Colors",
+  "luxium_re.sodium.tooltip.sky_lighting_colors": "Tint celestial lighting using time-of-day colors.",
+  "luxium_re.sodium.option.realistic_clouds": "Three-Layer Clouds",
+  "luxium_re.sodium.tooltip.realistic_clouds": "Render independently configurable vanilla-style cloud layers.",
+  "luxium_re.sodium.option.realistic_water": "Realistic Water",
+  "luxium_re.sodium.tooltip.realistic_water": "Enable Luxium water shading and surface effects.",
+  "luxium_re.sodium.option.tonemap": "Tonemapping",
+  "luxium_re.sodium.tooltip.tonemap": "Apply Luxium's filmic tonemapping post effect.",
+  "luxium_re.sodium.option.screen_space_reflections": "Planar Reflections",
+  "luxium_re.sodium.tooltip.screen_space_reflections": "Enable reflections on supported polished block surfaces."
+}
