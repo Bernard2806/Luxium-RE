@@ -28,10 +28,10 @@ sourceSets.main.resources {
 
 sourceSets.main.java {
     // Keep unported Forge-era rendering sources as migration references without compiling them into the NeoForge build.
-    exclude 'com/vinlanx/luxium/Testing/**'
-    exclude 'com/vinlanx/luxium/client/**'
-    exclude 'com/vinlanx/luxium/mixin/**'
-    exclude 'com/vinlanx/luxium/rtx/**'
+    exclude '**/com/vinlanx/luxium/Testing/**'
+    exclude '**/com/vinlanx/luxium/client/**'
+    exclude '**/com/vinlanx/luxium/mixin/**'
+    exclude '**/com/vinlanx/luxium/rtx/**'
 }
 
 repositories {
