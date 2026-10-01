@@ -1,0 +1,13 @@
+{
+  "itemGroup.luxiumre": "Luxium RE",
+  "block.luxiumre.example_block": "Example Block",
+  "item.luxiumre.example_item": "Example Item",
+
+  "luxiumre.configuration.title": "Luxium RE Config",
+  "luxiumre.configuration.section.luxiumre.common.toml": "Luxium RE Config",
+  "luxiumre.configuration.section.luxiumre.common.toml.title": "Luxium RE Config",
+  "luxiumre.configuration.items": "Item List",
+  "luxiumre.configuration.logDirtBlock": "Log Dirt Block",
+  "luxiumre.configuration.magicNumberIntroduction": "Magic Number Text",
+  "luxiumre.configuration.magicNumber": "Magic Number"
+}
