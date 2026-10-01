@@ -2,13 +2,17 @@
 
 This list records the current port state for whoever continues the work. Keep it updated as each small migration commit lands.
 
+- [x] Require Reese's Sodium Options (`mc26.2-2.2.4+neoforge`) as a client dependency. RSO reads the pages registered through Sodium's config API, so Luxium-RE does not compile against it and does not need its own options screen.
+- [x] Expand the Sodium config registration from 10 toggles to the full 148-option Luxium set across 9 pages (upscaling, lighting, sky, atmosphere, reflections/post effects, wet surfaces/rain puddles, vegetation/terrain, performance). Every option is bound to its existing `Config.CLIENT` value, so the TOML file and the option screen stay in sync.
+- [x] Verify the client reaches resource reload and the sound engine with all pages registered (RSO mixin applied, no config registration errors).
+
 ## Completed baseline
 
 - [x] Initialize the project with the NeoForge 26.2 ModDevGradle MDK, Java 25 toolchain, and mod ID `luxium_re`.
 - [x] Import the previous Luxium code and visual assets from the sibling decompilation repository (190 Java files and 176 resource files at import time).
 - [x] Preserve the Luxium custom license and include it in the built JAR.
 - [x] Configure Sodium 0.9.2 (`0.9.2+mc26.2`) from the CaffeineMC Maven repository. The local client run receives Sodium through `localRuntime`.
-- [x] Add a Sodium video-settings page backed by the existing NeoForge client config.
+- [x] Add a Sodium config API entry point backed by the existing NeoForge client config.
 - [x] Add `SodiumIntegration` and a Sodium 0.9.2 local shadow bridge using `SodiumWorldRenderer`, `RenderSectionManager`, `SectionStorage`, `ChunkRenderer`, `TerrainRenderPass`, and current GPU uniform/sampler data.
 - [x] Register the Sodium renderer accessors through `luxiumre.mixins.json` and `neoforge.mods.toml`; the existing `GpuShadowCache` caller is still excluded and the bridge is not wired into active gameplay yet.
 - [x] Verify `./gradlew clean build` succeeds for the active bootstrap/config/Sodium integration. A development client run loaded Luxium-RE and Sodium through the resource reload stage.

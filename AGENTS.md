@@ -4,7 +4,16 @@
 
 Luxium-RE is the NeoForge continuation of Luxium targeting Minecraft 26.2. The migration source is the sibling repository `../Luxium-decompiled`, which contains the Forge 1.20.1 decompilation. Use it as a read-only reference; make all implementation changes in this repository.
 
-The target toolchain is Java 25, NeoForge 26.2, and ModDevGradle. Sodium 0.9.2 for NeoForge 26.2 is a required client dependency. Integrate directly with Sodium; do not add Embeddium as a dependency or restore Embeddium runtime hooks.
+The target toolchain is Java 25, NeoForge 26.2, and ModDevGradle. Sodium 0.9.2 for NeoForge 26.2 is a required client dependency, and Reese's Sodium Options (`mc26.2-2.2.4+neoforge`) is a second required client dependency that provides the options frontend. Integrate directly with Sodium; do not add Embeddium as a dependency or restore Embeddium runtime hooks.
+
+## Options UI
+
+`src/main/java/com/vinlanx/luxium/sodium/LuxiumSodiumConfig.java` is the only place that exposes user-facing options. It registers pages through Sodium's public config API (`@ConfigEntryPointForge` plus `ConfigBuilder`), which is what Reese's Sodium Options renders as a tab. Two rules follow from that:
+
+- Never compile against RSO or Sodium UI classes. RSO is `localRuntime` only; the whole integration surface is Sodium's `net.caffeinemc.mods.sodium.api.config` package.
+- Sodium rejects an option that lists itself as an enable dependency (`IllegalArgumentException: Option cannot depend on itself`). A feature master toggle must therefore use the `alwaysOn` helper, while its dependent sliders and sub-toggles use `under(<option id>)`. Do not pass a feature toggle's own identifier to `under`.
+
+`IntegerOptionBuilder` requires a value formatter and enum options require either a `TextProvider` enum or an explicit `setElementNameProvider`; omitting either fails client startup. Every option key needs a matching `luxium_re.sodium.option.*` and `luxium_re.sodium.tooltip.*` entry in `assets/luxium_re/lang/en_us.json`.
 
 ## Migration status and boundaries
 
