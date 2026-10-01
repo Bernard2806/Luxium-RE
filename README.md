@@ -14,6 +14,10 @@ The [`Luxium-decompiled` repository](https://github.com/Bernard2806/Luxium-decom
 
 Sodium is a required **client-side** dependency. Its unwrapped NeoForge artifact is resolved from the [CaffeineMC Maven repository](https://maven.caffeinemc.net/). The version is pinned in `gradle.properties` as `sodium_version`.
 
+## Port status
+
+Migration is in progress. The original source and visual assets are being brought forward from Forge 1.20.1; Forge hooks and Embeddium-specific rendering integrations are being replaced with NeoForge 26.2 and Sodium equivalents.
+
 ## Development
 
 Install a 64-bit JDK 25, then use the Gradle wrapper:
