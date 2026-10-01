@@ -38,12 +38,12 @@ import com.vinlanx.luxium.client.shadows.neoskycelestia.NeoSkyCelestiaMath;
 import com.vinlanx.luxium.client.shadows.neoskycelestia.NeoSkyEntityShadowMap;
 import com.vinlanx.luxium.client.shadows.neoskycelestia.NeoSkyFrameCache;
 import com.vinlanx.luxium.client.shadows.neoskycelestia.NeoSkyShadowRenderLists;
-import com.vinlanx.luxium.client.shadows.neoskycelestia.embeddium.NeoSkyEmbeddiumShadowBridge;
+import com.vinlanx.luxium.client.shadows.neoskycelestia.sodium.NeoSkySodiumShadowBridge;
 import com.vinlanx.luxium.client.shadows.neoskycelestia.lightmap.NeoSkyCelestiaLightLut;
 import com.vinlanx.luxium.client.shadows.neoskycelestia.lightmap.NeoSkyLightTextureExtension;
 import com.vinlanx.luxium.client.sunmoonapi.CelestialPath;
 import java.nio.FloatBuffer;
-import me.jellysquid.mods.sodium.client.render.chunk.ChunkRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.CloudStatus;
 import net.minecraft.client.Minecraft;
@@ -51,7 +51,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
@@ -65,7 +65,7 @@ public final class NeoSkyCelestia {
     private final NeoSkyCascade near = new NeoSkyCascade("near");
     private final NeoSkyCascade far = new NeoSkyCascade("far");
     private final NeoSkyEntityShadowMap entityShadows = new NeoSkyEntityShadowMap();
-    private final NeoSkyEmbeddiumShadowBridge embeddium = new NeoSkyEmbeddiumShadowBridge();
+    private final NeoSkySodiumShadowBridge sodium = new NeoSkySodiumShadowBridge();
     private final NeoSkyCelestiaLightLut celestialLightLut = new NeoSkyCelestiaLightLut();
     private NeoSkyCelestiaFrameState frameState;
     private ClientLevel boundLevel;
@@ -130,7 +130,7 @@ public final class NeoSkyCelestia {
         if (buildNear || buildFar) {
             this.rebuilding = true;
             try {
-                NeoSkyEmbeddiumShadowBridge.PreparedRenderLists prepared;
+                NeoSkySodiumShadowBridge.PreparedRenderLists prepared;
                 Matrix4f sharedLightRotation = NeoSkyCelestiaMath.buildLightViewRotation(toLight);
                 if (buildNear) {
                     this.near.prepareReceiver(cameraPosition, toLight, sharedLightRotation);
@@ -138,7 +138,7 @@ public final class NeoSkyCelestia {
                 if (buildFar) {
                     this.far.prepareReceiver(cameraPosition, toLight, sharedLightRotation);
                 }
-                if ((prepared = this.embeddium.prepareRenderLists(this.near, buildNear, this.far, buildFar)) == null) {
+                if ((prepared = this.sodium.prepareRenderLists(this.near, buildNear, this.far, buildFar)) == null) {
                     if (buildNear) {
                         this.near.markDirty();
                     }
@@ -204,7 +204,7 @@ public final class NeoSkyCelestia {
         this.terrainShadowPass = true;
         try {
             RenderSystem.disableCull();
-            rendered = this.embeddium.renderCascade(cascade, renderer, lists);
+            rendered = this.sodium.renderCascade(cascade, renderer, lists);
         }
         finally {
             this.terrainShadowPass = false;
@@ -361,7 +361,7 @@ public final class NeoSkyCelestia {
 
     public boolean isConfiguredAndAvailable() {
         Minecraft mc = Minecraft.m_91087_();
-        return this.isGpuModeSelected() && this.embeddium.isAvailable();
+        return this.isGpuModeSelected() && this.sodium.isAvailable();
     }
 
     public boolean isGpuModeSelected() {
@@ -422,7 +422,7 @@ public final class NeoSkyCelestia {
         this.near.invalidate();
         this.far.invalidate();
         this.entityShadows.invalidate();
-        this.embeddium.clearCaches();
+        this.sodium.clearCaches();
         this.publishDisabledState(Minecraft.m_91087_());
     }
 
@@ -432,7 +432,7 @@ public final class NeoSkyCelestia {
         this.far.close();
         this.entityShadows.close();
         this.celestialLightLut.close();
-        this.embeddium.clearCaches();
+        this.sodium.clearCaches();
         if (this.fallbackDepthTexture != 0) {
             GlStateManager._deleteTexture((int)this.fallbackDepthTexture);
             this.fallbackDepthTexture = 0;
@@ -448,7 +448,7 @@ public final class NeoSkyCelestia {
     }
 
     private boolean canRun(Minecraft mc) {
-        return this.isGpuModeSelected() && this.embeddium.isAvailable() && mc.f_91074_ != null && !NeoShadowsEngine.isAnyShadowCapturePass() && !ReflectionSystem.isRenderingWorldPass();
+        return this.isGpuModeSelected() && this.sodium.isAvailable() && mc.f_91074_ != null && !NeoShadowsEngine.isAnyShadowCapturePass() && !ReflectionSystem.isRenderingWorldPass();
     }
 
     private void configureCascades() {
@@ -513,4 +513,3 @@ public final class NeoSkyCelestia {
         GL11.glTexParameteri((int)3553, (int)10240, (int)9728);
     }
 }
-

@@ -62,11 +62,12 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.lwjgl.BufferUtils;
@@ -76,7 +77,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL21;
 import org.lwjgl.system.MemoryUtil;
 
-@Mod.EventBusSubscriber(modid="luxium", value={Dist.CLIENT})
+@EventBusSubscriber(modid="luxium_re", value={Dist.CLIENT})
 public final class KawaseBloomRenderer {
     private static final int MAX_LEVELS = 7;
     private static final int MAX_SOURCE_DISTANCE = 32;
@@ -490,4 +491,3 @@ public final class KawaseBloomRenderer {
         INVERSE_PROJECTION = new Matrix4f();
     }
 }
-

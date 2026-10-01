@@ -18,9 +18,9 @@ import com.vinlanx.luxium.client.ssr.SsrConsumer;
 import com.vinlanx.luxium.client.ssr.SsrSettings;
 import com.vinlanx.luxium.client.water.WaterSurfaceState;
 import com.vinlanx.luxium.client.water.WaterTerrainPass;
-import me.jellysquid.mods.sodium.client.gl.device.RenderDevice;
-import me.jellysquid.mods.sodium.client.render.chunk.ChunkRenderMatrices;
-import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
+import net.caffeinemc.mods.sodium.client.gl.device.RenderDevice;
+import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderMatrices;
+import net.caffeinemc.mods.sodium.client.render.chunk.RenderSectionManager;
 import net.minecraft.client.Minecraft;
 
 public final class WaterSurfaceRenderer {
@@ -185,4 +185,3 @@ public final class WaterSurfaceRenderer {
         ScreenSpaceReflectionSystem.invalidateHit(SsrConsumer.WATER);
     }
 }
-

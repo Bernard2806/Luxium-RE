@@ -19,9 +19,9 @@ import com.vinlanx.luxium.client.SharedPostResources;
 import com.vinlanx.luxium.client.water.WaterSurfaceState;
 import com.vinlanx.luxium.client.water.WaterTerrainPass;
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanillaCutoutPrepass;
-import me.jellysquid.mods.sodium.client.render.chunk.ShaderChunkRenderer;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.DefaultTerrainRenderPasses;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.TerrainRenderPass;
+import net.caffeinemc.mods.sodium.client.render.chunk.ShaderChunkRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.DefaultTerrainRenderPasses;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.TerrainRenderPass;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -65,4 +65,3 @@ public abstract class EmbeddiumNeoGpuCutoutPrepassMixin {
         RenderSystem.depthFunc((int)515);
     }
 }
-

@@ -64,7 +64,7 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3fc;
 import org.joml.Matrix4f;
@@ -344,4 +344,3 @@ final class NeoShadowsRenderPipeline {
         return dx * dx + (dy = (double)(buildCenter.m_123342_() - currentCenter.m_123342_())) * dy + (dz = (double)(buildCenter.m_123343_() - currentCenter.m_123343_())) * dz <= 256.0;
     }
 }
-

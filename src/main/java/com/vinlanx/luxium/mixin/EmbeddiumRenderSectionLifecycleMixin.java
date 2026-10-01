@@ -13,8 +13,8 @@
 package com.vinlanx.luxium.mixin;
 
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanilla;
-import me.jellysquid.mods.sodium.client.render.chunk.RenderSection;
-import me.jellysquid.mods.sodium.client.render.chunk.data.BuiltSectionInfo;
+import net.caffeinemc.mods.sodium.client.render.chunk.RenderSection;
+import net.caffeinemc.mods.sodium.client.render.chunk.data.BuiltSectionInfo;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,4 +40,3 @@ public abstract class EmbeddiumRenderSectionLifecycleMixin {
         NeoGpuVanilla.onRenderedSectionChanged(this.getOriginX(), this.getOriginY(), this.getOriginZ());
     }
 }
-

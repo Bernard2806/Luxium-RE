@@ -24,14 +24,15 @@ import com.vinlanx.luxium.client.NeoShadowsEngine;
 import com.vinlanx.luxium.client.ReflectionSystem;
 import com.vinlanx.luxium.client.posteffects.PostEffectPipeline;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.lwjgl.opengl.GL30;
 
-@Mod.EventBusSubscriber(modid="luxium", value={Dist.CLIENT})
+@EventBusSubscriber(modid="luxium_re", value={Dist.CLIENT})
 public final class SharedPostResources {
     private static TextureTarget sharedDepthTarget;
     private static TextureTarget sharedColorTarget;
@@ -147,4 +148,3 @@ public final class SharedPostResources {
         return waterRenderTarget != null ? SharedPostResources.waterRenderTarget.f_83916_ : 0;
     }
 }
-

@@ -59,15 +59,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 
-@Mod.EventBusSubscriber(modid="luxium", value={Dist.CLIENT})
+@EventBusSubscriber(modid="luxium_re", value={Dist.CLIENT})
 public final class PostEffectPipeline {
     private static final Matrix4f PREVIOUS_PROJECTION = new Matrix4f();
     private static TextureTarget effectsTarget;
@@ -438,4 +439,3 @@ public final class PostEffectPipeline {
 
     }
 }
-

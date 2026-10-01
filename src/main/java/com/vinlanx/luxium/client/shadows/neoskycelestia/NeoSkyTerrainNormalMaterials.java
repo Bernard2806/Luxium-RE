@@ -8,8 +8,8 @@
  */
 package com.vinlanx.luxium.client.shadows.neoskycelestia;
 
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.DefaultMaterials;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.Material;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.DefaultMaterials;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.Material;
 import net.minecraft.core.Direction;
 
 public final class NeoSkyTerrainNormalMaterials {

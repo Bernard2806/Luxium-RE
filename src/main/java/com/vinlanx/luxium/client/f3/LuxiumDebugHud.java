@@ -22,7 +22,6 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid="luxium", bus=Mod.EventBusSubscriber.Bus.MOD, value={Dist.CLIENT})
 public final class LuxiumDebugHud {
     private static final int MARGIN = 4;
     private static final int LINE_HEIGHT = 10;
@@ -98,4 +97,3 @@ public final class LuxiumDebugHud {
         lastMetrics = -1;
     }
 }
-

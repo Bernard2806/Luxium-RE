@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
 
 public final class LuxiumF3Info {
-    private static final List<String> LUXIUM_INFO = List.of("", ChatFormatting.RED + "Luxium v" + ((ModContainer)ModList.get().getModContainerById("luxium").orElseThrow(() -> new IllegalStateException("Luxium mod metadata is unavailable"))).getModInfo().getVersion());
+        private static final List<String> LUXIUM_INFO = List.of("", ChatFormatting.RED + "Luxium-RE v" + ((ModContainer)ModList.get().getModContainerById("luxium_re").orElseThrow(() -> new IllegalStateException("Luxium-RE mod metadata is unavailable"))).getModInfo().getVersion());
 
     private LuxiumF3Info() {
     }
@@ -46,4 +46,3 @@ public final class LuxiumF3Info {
         right.addAll(targetIndex, LUXIUM_INFO);
     }
 }
-

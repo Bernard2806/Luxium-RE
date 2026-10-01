@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import me.jellysquid.mods.sodium.client.gl.shader.ShaderLoader;
+import net.caffeinemc.mods.sodium.client.gl.shader.ShaderLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -91,4 +91,3 @@ public abstract class EmbeddiumShaderLoaderMixin {
         }
     }
 }
-

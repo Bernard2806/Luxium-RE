@@ -63,7 +63,7 @@ import com.vinlanx.luxium.client.NeoShadowsEngine;
 import com.vinlanx.luxium.client.ShaderManager;
 import com.vinlanx.luxium.client.shadows.GpuLocalLightResolver;
 import com.vinlanx.luxium.client.shadows.GpuNeoShadows;
-import com.vinlanx.luxium.client.shadows.embeddium.EmbeddiumLocalShadowBridge;
+import com.vinlanx.luxium.client.shadows.sodium.SodiumLocalShadowBridge;
 import com.vinlanx.luxium.mixin.CameraAccessor;
 import com.vinlanx.luxium.mixin.MinecraftAccessor;
 import com.vinlanx.luxium.rtx.LightRtMath;
@@ -109,7 +109,7 @@ public final class GpuShadowCache {
     private static final float SHADOW_NEAR_PLANE = 0.55f;
     private static final float SHADOW_FACE_FOV = (float)Math.toRadians(92.0);
     private static final GpuShadowCache INSTANCE = new GpuShadowCache();
-    private final EmbeddiumLocalShadowBridge embeddiumLocalShadowBridge = new EmbeddiumLocalShadowBridge();
+    private final SodiumLocalShadowBridge sodiumLocalShadowBridge = new SodiumLocalShadowBridge();
     private final Long2ObjectOpenHashMap<Entry> entries = new Long2ObjectOpenHashMap();
     private final LongOpenHashSet removedSources = new LongOpenHashSet();
     private final LongOpenHashSet pendingRenderedSections = new LongOpenHashSet();
@@ -266,8 +266,8 @@ public final class GpuShadowCache {
         return added;
     }
 
-    public boolean usesDirectEmbeddiumCapture() {
-        return NeoGpuVanilla.isConfiguredEnabled() && this.embeddiumLocalShadowBridge.isAvailable();
+    public boolean usesDirectSodiumCapture() {
+        return NeoGpuVanilla.isConfiguredEnabled() && this.sodiumLocalShadowBridge.isAvailable();
     }
 
     public void refreshDynamicCasters(ClientLevel level, BlockPos center, Vec3 cameraPos) {
@@ -644,14 +644,14 @@ public final class GpuShadowCache {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void rebuildFaces(LevelRenderer levelRenderer, float partialTick, long finishNano, GameRenderer gameRenderer, LightTexture lightTexture, Entry entry, int faceMask) {
-        EmbeddiumLocalShadowBridge.PreparedCapture directCapture;
+        SodiumLocalShadowBridge.PreparedCapture directCapture;
         int mask = faceMask & 0x3F;
         if (mask == 0) {
             return;
         }
-        boolean directEmbeddium = NeoGpuVanilla.isConfiguredEnabled() && this.embeddiumLocalShadowBridge.isAvailable();
-        EmbeddiumLocalShadowBridge.PreparedCapture preparedCapture = directCapture = directEmbeddium ? this.embeddiumLocalShadowBridge.prepare(entry.worldX, entry.worldY, entry.worldZ, entry.radius) : null;
-        if (directEmbeddium && (directCapture == null || directCapture.lists().regionCount() == 0)) {
+        boolean directSodium = NeoGpuVanilla.isConfiguredEnabled() && this.sodiumLocalShadowBridge.isAvailable();
+        SodiumLocalShadowBridge.PreparedCapture preparedCapture = directCapture = directSodium ? this.sodiumLocalShadowBridge.prepare(entry.worldX, entry.worldY, entry.worldZ, entry.radius) : null;
+        if (directSodium && (directCapture == null || directCapture.lists().regionCount() == 0)) {
             return;
         }
         while (mask != 0) {
@@ -670,11 +670,11 @@ public final class GpuShadowCache {
                 shadowPose.m_252781_(Axis.f_252529_.m_252977_(this.shadowCamera.m_90589_()));
                 shadowPose.m_252781_(Axis.f_252436_.m_252977_(this.shadowCamera.m_90590_() + 180.0f));
                 Matrix4f lightViewRotation = new Matrix4f((Matrix4fc)shadowPose.m_85850_().m_252922_());
-                boolean bl = renderedDirect = directEmbeddium && this.embeddiumLocalShadowBridge.renderFace(directCapture, proj, lightViewRotation);
-                if (directEmbeddium && !renderedDirect) {
+                boolean bl = renderedDirect = directSodium && this.sodiumLocalShadowBridge.renderFace(directCapture, proj, lightViewRotation);
+                if (directSodium && !renderedDirect) {
                     return;
                 }
-                if (!directEmbeddium) {
+                if (!directSodium) {
                     levelRenderer.m_109599_(shadowPose, partialTick, finishNano, false, this.shadowCamera, gameRenderer, lightTexture, proj);
                 }
                 if (!this.copyDepthToAtlas(entry, face, proj)) {

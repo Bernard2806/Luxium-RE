@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Pseudo
-@Mixin(targets={"me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.BlockOcclusionCache"})
+@Mixin(targets={"net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockOcclusionCache"})
 public abstract class EmbeddiumBlockOcclusionCacheMixin {
     @Inject(method={"shouldDrawSide"}, at={@At(value="RETURN")}, cancellable=true, remap=false, require=1)
     private void luxium$captureEmbeddiumFaces(BlockState selfState, BlockGetter view, BlockPos pos, Direction facing, CallbackInfoReturnable<Boolean> cir) {
@@ -35,4 +35,3 @@ public abstract class EmbeddiumBlockOcclusionCacheMixin {
         }
     }
 }
-

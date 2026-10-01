@@ -44,14 +44,14 @@ import com.vinlanx.luxium.client.water.WaterTextureResources;
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanilla;
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanillaCutoutPrepass;
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanillaFrameState;
-import me.jellysquid.mods.sodium.client.gl.shader.uniform.GlUniformFloat;
-import me.jellysquid.mods.sodium.client.gl.shader.uniform.GlUniformFloat3v;
-import me.jellysquid.mods.sodium.client.gl.shader.uniform.GlUniformFloat4v;
-import me.jellysquid.mods.sodium.client.gl.shader.uniform.GlUniformInt;
-import me.jellysquid.mods.sodium.client.gl.shader.uniform.GlUniformMatrix4f;
-import me.jellysquid.mods.sodium.client.render.chunk.shader.ChunkShaderInterface;
-import me.jellysquid.mods.sodium.client.render.chunk.shader.ChunkShaderOptions;
-import me.jellysquid.mods.sodium.client.render.chunk.shader.ShaderBindingContext;
+import net.caffeinemc.mods.sodium.client.gl.shader.uniform.GlUniformFloat;
+import net.caffeinemc.mods.sodium.client.gl.shader.uniform.GlUniformFloat3v;
+import net.caffeinemc.mods.sodium.client.gl.shader.uniform.GlUniformFloat4v;
+import net.caffeinemc.mods.sodium.client.gl.shader.uniform.GlUniformInt;
+import net.caffeinemc.mods.sodium.client.gl.shader.uniform.GlUniformMatrix4f;
+import net.caffeinemc.mods.sodium.client.render.chunk.shader.ChunkShaderInterface;
+import net.caffeinemc.mods.sodium.client.render.chunk.shader.ChunkShaderOptions;
+import net.caffeinemc.mods.sodium.client.render.chunk.shader.ShaderBindingContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4fc;
@@ -875,4 +875,3 @@ public abstract class EmbeddiumChunkShaderInterfaceMixin {
         GlStateManager._activeTexture((int)33984);
     }
 }
-

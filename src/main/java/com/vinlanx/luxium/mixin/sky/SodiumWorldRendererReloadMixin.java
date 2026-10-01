@@ -13,7 +13,7 @@ package com.vinlanx.luxium.mixin.sky;
 import com.vinlanx.luxium.client.shadows.GpuShadowCache;
 import com.vinlanx.luxium.client.shadows.neoskycelestia.NeoSkyCelestia;
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanilla;
-import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
+import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,4 +30,3 @@ public abstract class SodiumWorldRendererReloadMixin {
         NeoSkyCelestia.get().markAllDirty();
     }
 }
-

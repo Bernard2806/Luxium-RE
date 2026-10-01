@@ -47,17 +47,18 @@ import com.vinlanx.luxium.client.shadows.neoskycelestia.NeoSkyFrameCache;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
 
-@Mod.EventBusSubscriber(modid="luxium", value={Dist.CLIENT})
+@EventBusSubscriber(modid="luxium_re", value={Dist.CLIENT})
 public final class GodRaySystem {
     private static final boolean ENABLED = false;
     private static final float RENDER_SCALE = 0.8f;
@@ -228,4 +229,3 @@ public final class GodRaySystem {
         INVERSE_PROJECTION = new Matrix4f();
     }
 }
-

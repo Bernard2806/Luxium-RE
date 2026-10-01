@@ -54,15 +54,16 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 
-@Mod.EventBusSubscriber(modid="luxium", value={Dist.CLIENT}, bus=Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid="luxium_re", value={Dist.CLIENT})
 public final class RainPuddleRenderer {
     private static final ResourceLocation MICRO_NORMAL = ResourceLocation.fromNamespaceAndPath((String)"luxium", (String)"textures/effects/water_micro_normal.png");
     private static final Matrix4f VIEW_ROTATION = new Matrix4f();
@@ -227,4 +228,3 @@ public final class RainPuddleRenderer {
         }
     }
 }
-

@@ -21,11 +21,12 @@ import com.vinlanx.luxium.client.tfrpluslsr.LsrSystem;
 import com.vinlanx.luxium.client.tfrpluslsr.TemporalFrameSystem;
 import com.vinlanx.luxium.mixin.MinecraftAccessor;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import org.jetbrains.annotations.Nullable;
 
-@Mod.EventBusSubscriber(modid="luxium", value={Dist.CLIENT})
+@EventBusSubscriber(modid="luxium_re", value={Dist.CLIENT})
 public final class PostProcessStateGuard {
     @Nullable
     private static RenderTarget canonicalMainTarget;
@@ -106,4 +107,3 @@ public final class PostProcessStateGuard {
         RenderSystem.setShaderColor((float)1.0f, (float)1.0f, (float)1.0f, (float)1.0f);
     }
 }
-

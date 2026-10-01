@@ -9,8 +9,8 @@
 package com.vinlanx.luxium.client.plantswave;
 
 import com.vinlanx.luxium.client.plantswave.PlantWaveProfile;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.DefaultMaterials;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.Material;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.DefaultMaterials;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.Material;
 import net.minecraft.core.Direction;
 
 public final class PlantWaveMaterialEncoder {
@@ -86,4 +86,3 @@ public final class PlantWaveMaterialEncoder {
         }
     }
 }
-

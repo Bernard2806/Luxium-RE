@@ -24,12 +24,12 @@ package com.vinlanx.luxium.mixin;
 import com.vinlanx.luxium.client.plantswave.PlantWaveMaterialEncoder;
 import com.vinlanx.luxium.client.plantswave.PlantWaveProfile;
 import com.vinlanx.luxium.client.plantswave.PlantWaveRegistry;
-import me.jellysquid.mods.sodium.client.model.quad.BakedQuadView;
-import me.jellysquid.mods.sodium.client.model.quad.properties.ModelQuadFacing;
-import me.jellysquid.mods.sodium.client.render.chunk.compile.ChunkBuildBuffers;
-import me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderContext;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.Material;
-import me.jellysquid.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;
+import net.caffeinemc.mods.sodium.client.model.quad.BakedQuadView;
+import net.caffeinemc.mods.sodium.client.model.quad.properties.ModelQuadFacing;
+import net.caffeinemc.mods.sodium.client.render.chunk.compile.ChunkBuildBuffers;
+import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderContext;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.Material;
+import net.caffeinemc.mods.sodium.client.render.chunk.vertex.format.ChunkVertexEncoder;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,7 +42,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Pseudo
-@Mixin(targets={"me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer"})
+@Mixin(targets={"net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.BlockRenderer"})
 public abstract class EmbeddiumBlockRendererMixin {
     @Unique
     private Direction luxium$quadNormalDirection;
@@ -101,4 +101,3 @@ public abstract class EmbeddiumBlockRendererMixin {
         return h & 0xF;
     }
 }
-

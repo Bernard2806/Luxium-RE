@@ -20,8 +20,8 @@ import com.vinlanx.luxium.rtx.TorchRtxState;
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanillaFrameState;
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanillaGpuDebug;
 import com.vinlanx.luxium.rtx.neogpuvanilla.NeoGpuVanillaVolume;
+import com.vinlanx.luxium.sodium.SodiumIntegration;
 import java.util.Arrays;
-import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -196,12 +196,9 @@ public final class NeoGpuVanilla {
             return;
         }
         GpuShadowCache cache = GpuShadowCache.get();
-        if (cache.usesDirectEmbeddiumCapture()) {
+        if (cache.usesDirectSodiumCapture()) {
             cache.expectRenderedSectionChange(pos);
-            SodiumWorldRenderer worldRenderer = SodiumWorldRenderer.instanceNullable();
-            if (worldRenderer != null) {
-                worldRenderer.scheduleRebuildForChunk(pos.m_123341_() >> 4, pos.m_123342_() >> 4, pos.m_123343_() >> 4, true);
-            }
+            SodiumIntegration.scheduleChunkRebuild(pos.m_123341_() >> 4, pos.m_123342_() >> 4, pos.m_123343_() >> 4, true);
         } else {
             cache.onGeometryChanged(pos);
         }
@@ -373,4 +370,3 @@ public final class NeoGpuVanilla {
         frameState = NeoGpuVanillaFrameState.disabled(0L);
     }
 }
-

@@ -18,11 +18,11 @@ package com.vinlanx.luxium.mixin;
 
 import com.vinlanx.luxium.Config;
 import com.vinlanx.luxium.client.water.WaterTerrainPass;
-import me.jellysquid.mods.sodium.client.render.chunk.compile.pipeline.FluidRenderer;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.DefaultTerrainRenderPasses;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.DefaultMaterials;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.Material;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.material.parameters.AlphaCutoffParameter;
+import net.caffeinemc.mods.sodium.client.render.chunk.compile.pipeline.FluidRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.DefaultTerrainRenderPasses;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.DefaultMaterials;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.Material;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.material.parameters.AlphaCutoffParameter;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.material.FluidState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -44,4 +44,3 @@ public abstract class EmbeddiumFluidRendererWaterMixin {
         return original;
     }
 }
-

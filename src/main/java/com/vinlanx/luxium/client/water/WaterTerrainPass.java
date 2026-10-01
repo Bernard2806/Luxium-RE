@@ -7,7 +7,7 @@
  */
 package com.vinlanx.luxium.client.water;
 
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.TerrainRenderPass;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.TerrainRenderPass;
 import net.minecraft.client.renderer.RenderType;
 
 public final class WaterTerrainPass {
@@ -31,4 +31,3 @@ public final class WaterTerrainPass {
         return pass != null && pass == water;
     }
 }
-

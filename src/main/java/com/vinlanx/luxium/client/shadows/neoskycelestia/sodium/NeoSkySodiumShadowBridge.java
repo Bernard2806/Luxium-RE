@@ -16,7 +16,7 @@
  *  me.jellysquid.mods.sodium.client.render.viewport.CameraTransform
  *  org.joml.Matrix4fc
  */
-package com.vinlanx.luxium.client.shadows.neoskycelestia.embeddium;
+package com.vinlanx.luxium.client.shadows.neoskycelestia.sodium;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -24,19 +24,19 @@ import com.vinlanx.luxium.client.shadows.neoskycelestia.NeoSkyCascade;
 import com.vinlanx.luxium.client.shadows.neoskycelestia.NeoSkyShadowRenderLists;
 import com.vinlanx.luxium.mixin.sky.RenderSectionManagerAccessor;
 import com.vinlanx.luxium.mixin.sky.SodiumWorldRendererAccessor;
-import me.jellysquid.mods.sodium.client.SodiumClientMod;
-import me.jellysquid.mods.sodium.client.gl.device.CommandList;
-import me.jellysquid.mods.sodium.client.gl.device.RenderDevice;
-import me.jellysquid.mods.sodium.client.render.SodiumWorldRenderer;
-import me.jellysquid.mods.sodium.client.render.chunk.ChunkRenderMatrices;
-import me.jellysquid.mods.sodium.client.render.chunk.ChunkRenderer;
-import me.jellysquid.mods.sodium.client.render.chunk.RenderSectionManager;
-import me.jellysquid.mods.sodium.client.render.chunk.lists.ChunkRenderListIterable;
-import me.jellysquid.mods.sodium.client.render.chunk.terrain.DefaultTerrainRenderPasses;
-import me.jellysquid.mods.sodium.client.render.viewport.CameraTransform;
+import net.caffeinemc.mods.sodium.client.SodiumClientMod;
+import net.caffeinemc.mods.sodium.client.gl.device.CommandList;
+import net.caffeinemc.mods.sodium.client.gl.device.RenderDevice;
+import net.caffeinemc.mods.sodium.client.render.SodiumWorldRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderMatrices;
+import net.caffeinemc.mods.sodium.client.render.chunk.ChunkRenderer;
+import net.caffeinemc.mods.sodium.client.render.chunk.RenderSectionManager;
+import net.caffeinemc.mods.sodium.client.render.chunk.lists.ChunkRenderListIterable;
+import net.caffeinemc.mods.sodium.client.render.chunk.terrain.DefaultTerrainRenderPasses;
+import net.caffeinemc.mods.sodium.client.render.viewport.CameraTransform;
 import org.joml.Matrix4fc;
 
-public final class NeoSkyEmbeddiumShadowBridge {
+public final class NeoSkySodiumShadowBridge {
     private final NeoSkyShadowRenderLists.Cache nearCache = new NeoSkyShadowRenderLists.Cache();
     private final NeoSkyShadowRenderLists.Cache farCache = new NeoSkyShadowRenderLists.Cache();
     private int frameId;
@@ -106,4 +106,3 @@ public final class NeoSkyEmbeddiumShadowBridge {
     public record PreparedRenderLists(ChunkRenderer renderer, NeoSkyShadowRenderLists near, float nearCasterFront, boolean nearIncomplete, NeoSkyShadowRenderLists far, float farCasterFront, boolean farIncomplete) {
     }
 }
-

@@ -25,7 +25,7 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
 import net.minecraft.util.Mth;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3fc;
@@ -212,4 +212,3 @@ public final class skyvolumetrigodrays {
         lastSkylightSampleGameTime = Long.MIN_VALUE;
     }
 }
-
